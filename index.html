@@ -2,7 +2,7 @@
 <html lang="ja">
 
 <head>
-    <title>Lilium難易度表</title>
+    <title>とりあえず難易度表</title>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -19,18 +19,15 @@
     <header class="mb-3">
         <nav class="navbar navbar-dark bg-dark">
             <div class="container-fluid">
-                <span class="navbar-brand mb-0 h1">Lilium難易度表</span>
+                <span class="navbar-brand mb-0 h1">とりあえず難易度表</span>
             </div>
         </nav>
     </header>
 
     <div class="container">
 
-        <div class="alert alert-success mb-3" role="alert">
-            <p>ここに難易度表の説明文。次期難易度表フォーマット対応。</p>
-            <p>難易度表の読み込みと表示に数秒かかります。</p>
-            <hr>
-            <p class="mb-0">更新が止まったGENOCIDE発狂難易度表に次ぐ新たな発狂難易度表を作りたいな～～</p>
+        <div class="alert alert-info mb-3" role="alert">
+            <p>フォームで送った差分を表示するだけ</p>
         </div>
 
 
@@ -55,13 +52,13 @@
                 var obj = $("#table_int");
 
                 obj.html("");
-                $("<thead class='table-dark'><tr><th>Level</th><th>Title</th><th>Artist</th><th>Comment</th></tr></thead><tbody>")
+                $("<thead class='table-dark'><tr><th>Level</th><th>Title</th><th>Artist</th><th>Chart</th><th> </th><th>Comment</th></tr></thead><tbody>")
                     .appendTo(obj);
                 var obj_sep = null;
                 for (var i = 0; i < info.length; i++) {
                     if (x != info[i].level) {
                         if (obj_sep != null) {
-                            obj_sep.html("<td colspan='4'>" + "<b>" + mark + x + " (" + count +
+                            obj_sep.html("<td colspan='6'>" + "<b>" + mark + x + " (" + count +
                                 "譜面)</b></td>");
                         }
                         obj_sep = $("<tr class='table-dark' style='text-align:center' id='" + mark + info[i].level +
@@ -77,16 +74,33 @@
                     $("<td width='5%'>" + mark + x + "</td>").appendTo(str);
 
                     // Title
-                    $("<td width='45%'>" +
+                    $("<td width='35%'>" +
                         "<a href='http://www.dream-pro.info/~lavalse/LR2IR/search.cgi?mode=ranking&bmsmd5=" + info[
                             i]
                         .md5 + "' target='_blank'>" + info[i].title + "</a></td>").appendTo(str);
 
                     // Artist
-                    $("<td width='40%'>" + info[i].artist + "</td>").appendTo(str);
+                    $("<td width='30%'>" +
+                        "<a href='" + info[i].url + "' target='_blank'>" + info[i].artist + "</a></td>").appendTo(str);
+
+                    // 譜面画像
+                    $("<td width='5%'>" +
+                        "<a href='https://bms-score-viewer.pages.dev/view?md5=" + info[i].md5 + "' target='_blank'>" + 
+                      "<img width='28' height='28' src='https://img.icons8.com/windows/32/sheet-music.png' alt='sheet-music' title='Chart View'/>" + 
+                      "</a></td>").appendTo(str);
+
+                    // 譜面DL
+                   if (info[i].url_diff != ""){
+                        $("<td width='5%'>" +
+                            "<a href='" + info[i].url_diff + "' target='_blank'>" +
+                            "<img width='24' height='24' src='https://img.icons8.com/material/24/download--v1.png' alt='download--v1' title='DL'/>" +
+                            "</a></td>").appendTo(str);
+                    }else{
+                        $("<td width='5%'>" + "／" + "</td>").appendTo(str);
+                    }
 
                     // Comment
-                    $("<td width='10%'>" + info[i].comment + "</td>").appendTo(str);
+                    $("<td width='20%'>" + info[i].comment + "</td>").appendTo(str);
                     str.appendTo(obj);
                     count++;
 
@@ -94,7 +108,7 @@
                 $("</tbody>").appendTo(obj);
 
                 if (obj_sep != null) {
-                    obj_sep.html("<td class='table-dark' style='text-align:center' colspan='4'>" + "<b>" + mark + x +
+                    obj_sep.html("<td class='table-dark' style='text-align:center' colspan='6'>" + "<b>" + mark + x +
                         " (" + count + "譜面)</b></td>");
                 }
             }
